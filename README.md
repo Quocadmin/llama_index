@@ -202,3 +202,86 @@ url = {https://github.com/jerryjliu/llama_index},
 year = {2022}
 }
 ```
+
+
+LlamaIndex là gì?
+LlamaIndex (trước đây gọi là GPT Index) là một framework (khung công cụ) giúp bạn dễ dàng xây dựng các ứng dụng sử dụng trí tuệ nhân tạo (AI) kiểu LLM (Large Language Model, ví dụ như ChatGPT) với dữ liệu riêng của bạn.
+
+Vấn đề mà LlamaIndex giải quyết
+Các mô hình AI lớn như ChatGPT thường chỉ biết những gì được huấn luyện (thường là dữ liệu công khai, đến một thời điểm nhất định). Nếu bạn muốn AI “hiểu” hoặc trả lời các câu hỏi dựa trên dữ liệu nội bộ, tài liệu cá nhân, file PDF, database, hay website riêng,... thì cần một cách kết nối dữ liệu của bạn vào AI.
+Đó chính là lý do ra đời của LlamaIndex.
+
+Tính năng nổi bật
+LlamaIndex cung cấp cho bạn:
+
+Kết nối dữ liệu (data connectors): Kết nối với nhiều nguồn dữ liệu khác nhau như file PDF, doc, dữ liệu SQL, API, Google Drive,...
+
+Tổ chức dữ liệu thông minh: Chuyển dữ liệu thành dạng mà AI dễ sử dụng (chẳng hạn lưu thành chỉ mục/vector để tìm kiếm nhanh).
+
+Tìm kiếm, truy xuất thông minh: Hỏi gì cũng được, AI sẽ tự động lấy thông tin liên quan nhất từ dữ liệu của bạn để trả lời.
+
+Dễ dàng tích hợp vào các ứng dụng: Bạn có thể dùng LlamaIndex cùng với LangChain, Flask, Docker, ChatGPT, hoặc tự xây dựng ứng dụng riêng.
+
+Ai nên dùng?
+Người mới (beginner):
+Bạn chỉ cần vài dòng code là có thể “nạp” dữ liệu và bắt đầu hỏi AI rồi.
+
+Người có kinh nghiệm (advanced):
+LlamaIndex cho phép bạn tuỳ chỉnh sâu từng phần, mở rộng thêm các module riêng.
+
+Cách hoạt động tổng quát
+Nạp dữ liệu: Đưa dữ liệu của bạn (file, database, v.v.) vào LlamaIndex qua các data connectors.
+
+Tạo chỉ mục (index): LlamaIndex chuyển dữ liệu sang dạng mà AI dễ sử dụng (ví dụ, lưu thành các vector để sau này tìm kiếm nhanh).
+
+Truy vấn (query): Khi bạn nhập câu hỏi, LlamaIndex sẽ tìm kiếm phần dữ liệu phù hợp nhất, gửi cho AI để trả lời chính xác theo “kiến thức riêng” của bạn.
+
+Ví dụ cơ bản (Python)
+1. Cài đặt
+sh
+Sao chép
+Chỉnh sửa
+pip install llama-index
+2. Sử dụng với OpenAI (ChatGPT)
+python
+Sao chép
+Chỉnh sửa
+import os
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
+
+os.environ["OPENAI_API_KEY"] = "YOUR_OPENAI_API_KEY"  # Thay bằng API key của bạn
+
+documents = SimpleDirectoryReader("THU_MUC_DU_LIEU_CUA_BAN").load_data()
+index = VectorStoreIndex.from_documents(documents)
+
+query_engine = index.as_query_engine()
+result = query_engine.query("Nội dung câu hỏi của bạn")
+print(result)
+3. Lưu lại chỉ mục để dùng về sau
+python
+Sao chép
+Chỉnh sửa
+index.storage_context.persist()  # Lưu index xuống ổ cứng
+4. Tải lại chỉ mục
+python
+Sao chép
+Chỉnh sửa
+from llama_index.core import StorageContext, load_index_from_storage
+
+storage_context = StorageContext.from_defaults(persist_dir="./storage")
+index = load_index_from_storage(storage_context)
+Tóm tắt ý nghĩa
+LlamaIndex giống như một “bộ não phụ trợ” giúp AI hiểu được dữ liệu riêng của bạn.
+
+Dễ tích hợp, nhiều plugin, tài liệu hướng dẫn rõ ràng.
+
+Hỗ trợ cả người mới và chuyên gia xây dựng sản phẩm AI dựa trên dữ liệu riêng.
+
+Tài liệu, cộng đồng
+Tài liệu chính thức
+
+LlamaHub (kho plugin tải dữ liệu)
+
+Discord cộng đồng
+
+Nếu bạn mới fork repo này, có thể bắt đầu đọc các ví dụ trong mục docs/examples, tham khảo tài liệu hướng dẫn chi tiết, và thử “nạp” dữ liệu của mình vào để hỏi AI nhé!
